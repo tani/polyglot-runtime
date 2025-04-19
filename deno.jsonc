@@ -1,7 +1,7 @@
 {
   "name": "@tani/polyglot",
   "version": "0.1.0",
-  "exports": "./polyglot.ts",
+  "exports": "./src/index.ts",
   "imports": {
     "@cross/test": "jsr:@cross/test@^0.0.10",
     "@jitl/quickjs-wasmfile-release-sync": "npm:@jitl/quickjs-wasmfile-release-sync@^0.31.0",
