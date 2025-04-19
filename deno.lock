@@ -3,6 +3,7 @@
   "specifiers": {
     "npm:@jitl/quickjs-wasmfile-release-sync@*": "0.31.0",
     "npm:@jitl/quickjs-wasmfile-release-sync@0.31": "0.31.0",
+    "npm:@ruby/wasm-wasi@^2.7.1": "2.7.1",
     "npm:biwascheme@0.8": "0.8.0",
     "npm:pyodide@*": "0.27.5",
     "npm:pyodide@~0.27.5": "0.27.5",
@@ -13,6 +14,9 @@
     "npm:wasmoon@^1.16.0": "1.16.0"
   },
   "npm": {
+    "@bjorn3/browser_wasi_shim@0.3.0": {
+      "integrity": "sha512-FlRBYttPRLcWORzBe6g8nmYTafBkOEFeOqMYM4tAHJzFsQy4+xJA94z85a9BCs8S+Uzfh9LrkpII7DXr2iUVFg=="
+    },
     "@jitl/quickjs-ffi-types@0.31.0": {
       "integrity": "sha512-1yrgvXlmXH2oNj3eFTrkwacGJbmM0crwipA3ohCrjv52gBeDaD7PsTvFYinlAnqU8iPME3LGP437yk05a2oejw=="
     },
@@ -20,6 +24,13 @@
       "integrity": "sha512-hYduecOByj9AsAfsJhZh5nA6exokmuFC8cls39+lYmTCGY51bgjJJJwReEu7Ff7vBWaQCL6TeDdVlnp2WYz0jw==",
       "dependencies": [
         "@jitl/quickjs-ffi-types"
+      ]
+    },
+    "@ruby/wasm-wasi@2.7.1": {
+      "integrity": "sha512-2f4NqiJuFoeYiXNr60PH3TbH5c+z/xP2Hq36Av2yahp05AaLDyJxWZwr9EGmfoFsmVTmeDdEW2KjPTfpue6xeg==",
+      "dependencies": [
+        "@bjorn3/browser_wasi_shim",
+        "tslib"
       ]
     },
     "@types/emscripten@1.39.10": {
@@ -70,6 +81,9 @@
         "acorn"
       ]
     },
+    "tslib@2.8.1": {
+      "integrity": "sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w=="
+    },
     "wasmoon@1.16.0": {
       "integrity": "sha512-FlRLb15WwAOz1A9OQDbf6oOKKSiefi5VK0ZRF2wgH9xk3o5SnU11tNPaOnQuAh1Ucr66cwwvVXaeVRaFdRBt5g==",
       "dependencies": [
@@ -97,6 +111,7 @@
   "workspace": {
     "dependencies": [
       "npm:@jitl/quickjs-wasmfile-release-sync@0.31",
+      "npm:@ruby/wasm-wasi@^2.7.1",
       "npm:biwascheme@0.8",
       "npm:pyodide@~0.27.5",
       "npm:quickjs-emscripten-core@0.31",

@@ -2,6 +2,7 @@ import { LuaFactory } from "wasmoon";
 import * as pyodideModule from "pyodide";
 import variant from "@jitl/quickjs-wasmfile-release-sync";
 import { DefaultRubyVM } from "@ruby/wasm-wasi/dist/browser.js";
+// @deno-types="./biwascheme.d.ts"
 import BiwaScheme from "biwascheme";
 import { compileString } from "squint-cljs";
 import * as squint_core from "squint-cljs/core.js";
