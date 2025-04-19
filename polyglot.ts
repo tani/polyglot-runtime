@@ -1,11 +1,11 @@
 import { LuaFactory } from "wasmoon";
 import * as pyodideModule from "pyodide";
-import variant from "npm:@jitl/quickjs-wasmfile-release-sync";
+import variant from "@jitl/quickjs-wasmfile-release-sync";
 import { DefaultRubyVM } from "@ruby/wasm-wasi/dist/browser.js";
 import BiwaScheme from "biwascheme";
 import { compileString } from "squint-cljs";
 import * as squint_core from "squint-cljs/core.js";
-import { newQuickJSWASMModuleFromVariant, type QuickJSSyncVariant } from "npm:quickjs-emscripten-core";
+import { newQuickJSWASMModuleFromVariant, type QuickJSSyncVariant } from "quickjs-emscripten-core";
 
 export interface Polyglot {
   call(lang: string, code: string): Promise<unknown>;
