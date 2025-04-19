@@ -1,4 +1,7 @@
 {
+  "name": "@tani/polyglot",
+  "version": "0.1.0",
+  "exports": "./polyglot.ts",
   "imports": {
     "@jitl/quickjs-wasmfile-release-sync": "npm:@jitl/quickjs-wasmfile-release-sync@^0.31.0",
     "@ruby/3.4-wasm-wasi/": "https://esm.sh/@ruby/3.4-wasm-wasi@^2.7.1/",

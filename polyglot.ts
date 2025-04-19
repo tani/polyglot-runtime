@@ -1,50 +1,66 @@
-import { LuaFactory } from 'wasmoon';
+import { LuaFactory } from "wasmoon";
 import * as pyodideModule from "pyodide";
 import variant from "npm:@jitl/quickjs-wasmfile-release-sync";
 import { DefaultRubyVM } from "@ruby/wasm-wasi/dist/browser.js";
 import BiwaScheme from "biwascheme";
 import { compileString } from "squint-cljs";
 import * as squint_core from "squint-cljs/core.js";
-import { newQuickJSWASMModuleFromVariant } from "npm:quickjs-emscripten-core";
+import { newQuickJSWASMModuleFromVariant, type QuickJSSyncVariant } from "npm:quickjs-emscripten-core";
 
-
-// Polyglotインターフェース定義
 export interface Polyglot {
   call(lang: string, code: string): Promise<unknown>;
-  lua(code: string): Promise<unknown>;
-  python(code: string): Promise<unknown>;
-  ruby(code: string): Promise<unknown>;
-  scheme(code: string): Promise<unknown>;
-  javascript(code: string): Promise<unknown>;
-  clojure(code: string): Promise<unknown>;
 }
 
-// =========================
-// Clojure 実行
-// =========================
 export function runClojure(polyglot: Polyglot, code: string): Promise<unknown> {
   const jsExpr = compileString(`(do ${code})`, {
     context: "expr",
     "elide-imports": true,
     "elide-exports": true,
   });
-  const jsFunc = new Function('polyglot', 'squint_core', `return (${jsExpr});`);
-  return jsFunc(polyglot, polyglot, squint_core);
+  const jsFunc = new Function("polyglot", "squint_core", `return (${jsExpr});`);
+  return Promise.resolve(jsFunc(polyglot, polyglot, squint_core));
 }
 
-// =========================
-// JavaScript 実行
-// =========================
-const QuickJS = await newQuickJSWASMModuleFromVariant(variant);
+const QuickJS = await newQuickJSWASMModuleFromVariant(variant as unknown as QuickJSSyncVariant);
 
-async function runJavaScript(_polyglot: Polyglot, code: string): Promise<unknown> {
-  using vm = QuickJS.newContext();
+async function runJavaScript(
+  _polyglot: Polyglot,
+  code: string,
+): Promise<unknown> {
+  const vm = QuickJS.newContext();
 
-  // 5. ユーザーコードを評価
+  const callFn = vm.newFunction("call", (...args) => {
+    const lang = vm.dump(args[0]);
+    const userCode = vm.dump(args[1]);
+    const promise = vm.newPromise();
+
+    polyglot.call(lang, userCode)
+      .then((res) => {
+        const json = JSON.stringify(res);
+        const parsed = vm.evalCode(
+          `JSON.parse(${JSON.stringify(json)})`,
+          "json.js",
+          { type: "global" },
+        );
+        const resultHandle = vm.unwrapResult(parsed);
+        promise.resolve(resultHandle);
+        vm.runtime.executePendingJobs();
+      })
+      .catch((err) => {
+        promise.reject(vm.newString(JSON.stringify(err)));
+        vm.runtime.executePendingJobs();
+      });
+
+    return promise.handle;
+  });
+
+  const polyObj = vm.newObject();
+  vm.setProp(polyObj, "call", callFn);
+  vm.setProp(vm.global, "polyglot", polyObj);
+
   const raw = vm.evalCode(code, "eval.js", { type: "global" });
   const handle = vm.unwrapResult(raw);
 
-  // 6. Promise なら待機して結果を返す
   const state = vm.getPromiseState(handle);
   if (state !== undefined) {
     vm.runtime.executePendingJobs();
@@ -54,45 +70,40 @@ async function runJavaScript(_polyglot: Polyglot, code: string): Promise<unknown
     return vm.dump(unwrapped);
   }
 
-  return vm.dump(handle);
+  const ret = vm.dump(handle);
+  vm.dispose();
+  return ret;
 }
 
-
-// =========================
-// Lua 実行
-// =========================
-const luaFactory = new LuaFactory()
+const luaFactory = new LuaFactory();
 async function runLua(polyglot: Polyglot, code: string): Promise<unknown> {
   const lua = await luaFactory.createEngine();
-  await lua.global.set('polyglot', { call: polyglot.call.bind(polyglot) });
+  await lua.global.set("polyglot", { call: polyglot.call.bind(polyglot) });
   return await lua.doString(code);
 }
 
-// =========================
-// Python 実行
-// =========================
 async function runPython(polyglot: Polyglot, code: string): Promise<unknown> {
   const pyodide = await pyodideModule.loadPyodide();
-  pyodide.registerJsModule("polyglot", { call: polyglot.call.bind(polyglot) });
-  await pyodide.runPythonAsync('import polyglot');
-  const result = await pyodide.runPythonAsync(code);
+  pyodide.registerJsModule("polyglot", polyglot);
+  const result = await pyodide.runPythonAsync(`import polyglot; ${code}`);
   return result && typeof result.toJs === "function" ? result.toJs() : result;
 }
 
-// =========================
-// Ruby 実行
-// =========================
-const response = await fetch(import.meta.resolve("@ruby/3.4-wasm-wasi/dist/ruby+stdlib.wasm"))
+const response = await fetch(
+  import.meta.resolve("@ruby/3.4-wasm-wasi/dist/ruby+stdlib.wasm"),
+);
 const module = await WebAssembly.compileStreaming(response);
 async function runRuby(_polyglot: Polyglot, code: string): Promise<unknown> {
   const { vm } = await DefaultRubyVM(module);
   await vm.evalAsync(`
     require "js"
     module Polyglot
-      class << self
-        def call(lang, code)
-          JS.global[:Polyglot].call(lang, code).await
-        end
+      def self.call(lang, code)
+        JS.global[:Polyglot].call(
+          :call,
+          lang.to_js,
+          code.to_js
+        )
       end
     end
   `);
@@ -100,43 +111,67 @@ async function runRuby(_polyglot: Polyglot, code: string): Promise<unknown> {
   return result.toJS();
 }
 
-// =========================
-// Scheme 実行
-// =========================
 function runScheme(polyglot: Polyglot, code: string): Promise<unknown> {
-  BiwaScheme.define_libfunc("polyglot-call", 2, 2, (args: any) => {
+  BiwaScheme.define_libfunc("polyglot-call", 2, 2, (args) => {
     const lang = args[0] as string;
     const snippet = args[1] as string;
-    return new BiwaScheme.Pause((pause: any) => {
+    return new BiwaScheme.Pause((pause) => {
       polyglot.call(lang, snippet)
         .then((res: unknown) => {
           pause.resume(res);
         })
         .catch((err: unknown) => {
           throw new BiwaScheme.Error(`Promise rejected: ${err}`);
-        })
-    })
+        });
+    });
   });
-  const biwa = new BiwaScheme.Interpreter((err: unknown) => { throw err; })
-  return new Promise((resolve, reject) => biwa.evaluate(`(begin ${code})`, resolve, reject));
+  const biwa = new BiwaScheme.Interpreter((err: unknown) => {
+    throw err;
+  });
+  return new Promise((resolve, reject) =>
+    biwa.evaluate(`(begin ${code})`, resolve, reject)
+  );
 }
 
 export const polyglot: Polyglot = {
-  call: (lang: string, code: string) => {
+  call: (lang: string, code: string): Promise<unknown> => {
     switch (lang) {
-      case 'lua': return runLua(polyglot, code);
-      case 'python': return runPython(polyglot, code);
-      case 'ruby': return runRuby(polyglot, code);
-      case 'scheme': return runScheme(polyglot, code);
-      case 'javascript': return runJavaScript(polyglot, code);
-      case 'clojure': return runClojure(polyglot, code);
-      default: throw new Error(`Unsupported language '${lang}'.`);
+      case "lua":
+        return runLua(polyglot, code);
+      case "python":
+        return runPython(polyglot, code);
+      case "ruby":
+        return runRuby(polyglot, code);
+      case "scheme":
+        return runScheme(polyglot, code);
+      case "javascript":
+        return runJavaScript(polyglot, code);
+      case "clojure":
+        return runClojure(polyglot, code);
+      default:
+        throw new Error(`Unsupported language '${lang}'.`);
     }
   },
-  lua: code => polyglot.call('lua', code),
-  python: code => polyglot.call('python', code),
-  ruby: code => polyglot.call('ruby', code),
-  scheme: code => polyglot.call('scheme', code),
-  javascript: code => polyglot.call('javascript', code),
-  clojure: code => polyglot.call('clojure', code),
+};
+
+type GlobalWithPolyglot = typeof globalThis & {
+  Polyglot: Polyglot;
+};
+(globalThis as unknown as GlobalWithPolyglot).Polyglot = polyglot;
+
+if (import.meta.main) {
+  const lua_code = `
+ruby_code = [=[
+python_code = <<-EOF
+scheme_code = """
+(define clojure-code "(* 11 13)")
+(* 9 (polyglot-call "clojure" "11"))
+"""
+7 * await polyglot.call("scheme", scheme_code)
+EOF
+5 * Polyglot.call("python", python_code).await.to_i
+]=]
+return 3 * polyglot.call("ruby", ruby_code):await()
+`;
+  console.log(await polyglot.call("lua", lua_code));
 }
