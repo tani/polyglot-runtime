@@ -1,9 +1,14 @@
 {
   "version": "4",
   "specifiers": {
+    "jsr:@cross/runtime@1": "1.1.0",
+    "jsr:@cross/test@^0.0.10": "0.0.10",
+    "jsr:@std/assert@^1.0.12": "1.0.12",
+    "jsr:@std/internal@^1.0.6": "1.0.6",
     "npm:@jitl/quickjs-wasmfile-release-sync@*": "0.31.0",
     "npm:@jitl/quickjs-wasmfile-release-sync@0.31": "0.31.0",
     "npm:@ruby/wasm-wasi@^2.7.1": "2.7.1",
+    "npm:@types/node@*": "22.12.0",
     "npm:biwascheme@0.8": "0.8.0",
     "npm:pyodide@*": "0.27.5",
     "npm:pyodide@~0.27.5": "0.27.5",
@@ -12,6 +17,26 @@
     "npm:squint-cljs@~0.8.146": "0.8.146",
     "npm:sval@~0.6.3": "0.6.3",
     "npm:wasmoon@^1.16.0": "1.16.0"
+  },
+  "jsr": {
+    "@cross/runtime@1.1.0": {
+      "integrity": "f35a3b768a9de125277329483b684062ffc9ee86f4449cb8b3d614adcad64ffb"
+    },
+    "@cross/test@0.0.10": {
+      "integrity": "5f235cdd927d5551d692bc413458625552d299bc5471baf18180e4287cf4ac20",
+      "dependencies": [
+        "jsr:@cross/runtime"
+      ]
+    },
+    "@std/assert@1.0.12": {
+      "integrity": "08009f0926dda9cbd8bef3a35d3b6a4b964b0ab5c3e140a4e0351fbf34af5b9a",
+      "dependencies": [
+        "jsr:@std/internal"
+      ]
+    },
+    "@std/internal@1.0.6": {
+      "integrity": "9533b128f230f73bd209408bb07a4b12f8d4255ab2a4d22a1fd6d87304aca9a4"
+    }
   },
   "npm": {
     "@bjorn3/browser_wasi_shim@0.3.0": {
@@ -35,6 +60,12 @@
     },
     "@types/emscripten@1.39.10": {
       "integrity": "sha512-TB/6hBkYQJxsZHSqyeuO1Jt0AB/bW6G7rHt9g7lML7SOF6lbgcHvw/Lr+69iqN0qxgXLhWKScAon73JNnptuDw=="
+    },
+    "@types/node@22.12.0": {
+      "integrity": "sha512-Fll2FZ1riMjNmlmJOdAyY5pUbkftXslB5DgEzlIuNaiWhXd00FhWxVC/r4yV/4wBb9JfImTu+jiSvXTkJ7F/gA==",
+      "dependencies": [
+        "undici-types"
+      ]
     },
     "acorn@8.14.1": {
       "integrity": "sha512-OvQ/2pUDKmgfCg++xsTX1wGxfTaszcHVcTctW4UJB4hibJx2HXxxO5UmVgyjMa+ZDsiaf5wWLXYpRWMmBI0QHg=="
@@ -84,6 +115,9 @@
     "tslib@2.8.1": {
       "integrity": "sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w=="
     },
+    "undici-types@6.20.0": {
+      "integrity": "sha512-Ny6QZ2Nju20vw1SRHe3d9jVu6gJ+4e3+MMpqu7pqE5HT6WsTSlce++GQmK5UXS8mzV8DSYHrQH+Xrf2jVcuKNg=="
+    },
     "wasmoon@1.16.0": {
       "integrity": "sha512-FlRLb15WwAOz1A9OQDbf6oOKKSiefi5VK0ZRF2wgH9xk3o5SnU11tNPaOnQuAh1Ucr66cwwvVXaeVRaFdRBt5g==",
       "dependencies": [
@@ -110,6 +144,8 @@
   },
   "workspace": {
     "dependencies": [
+      "jsr:@cross/test@^0.0.10",
+      "jsr:@std/assert@^1.0.12",
       "npm:@jitl/quickjs-wasmfile-release-sync@0.31",
       "npm:@ruby/wasm-wasi@^2.7.1",
       "npm:biwascheme@0.8",
