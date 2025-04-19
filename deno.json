@@ -1,0 +1,13 @@
+{
+  "imports": {
+    "@jitl/quickjs-wasmfile-release-sync": "npm:@jitl/quickjs-wasmfile-release-sync@^0.31.0",
+    "@ruby/3.4-wasm-wasi/": "https://esm.sh/@ruby/3.4-wasm-wasi@^2.7.1/",
+    "@ruby/wasm-wasi/": "https://esm.sh/@ruby/wasm-wasi@^2.7.1/",
+    "biwascheme": "npm:biwascheme@^0.8.0",
+    "pyodide": "npm:pyodide@^0.27.5",
+    "quickjs-emscripten-core": "npm:quickjs-emscripten-core@^0.31.0",
+    "squint-cljs": "npm:squint-cljs@^0.8.146",
+    "sval": "npm:sval@^0.6.3",
+    "wasmoon": "npm:wasmoon@^1.16.0"
+  }
+}

@@ -1,0 +1,108 @@
+{
+  "version": "4",
+  "specifiers": {
+    "npm:@jitl/quickjs-wasmfile-release-sync@*": "0.31.0",
+    "npm:@jitl/quickjs-wasmfile-release-sync@0.31": "0.31.0",
+    "npm:biwascheme@0.8": "0.8.0",
+    "npm:pyodide@*": "0.27.5",
+    "npm:pyodide@~0.27.5": "0.27.5",
+    "npm:quickjs-emscripten-core@*": "0.31.0",
+    "npm:quickjs-emscripten-core@0.31": "0.31.0",
+    "npm:squint-cljs@~0.8.146": "0.8.146",
+    "npm:sval@~0.6.3": "0.6.3",
+    "npm:wasmoon@^1.16.0": "1.16.0"
+  },
+  "npm": {
+    "@jitl/quickjs-ffi-types@0.31.0": {
+      "integrity": "sha512-1yrgvXlmXH2oNj3eFTrkwacGJbmM0crwipA3ohCrjv52gBeDaD7PsTvFYinlAnqU8iPME3LGP437yk05a2oejw=="
+    },
+    "@jitl/quickjs-wasmfile-release-sync@0.31.0": {
+      "integrity": "sha512-hYduecOByj9AsAfsJhZh5nA6exokmuFC8cls39+lYmTCGY51bgjJJJwReEu7Ff7vBWaQCL6TeDdVlnp2WYz0jw==",
+      "dependencies": [
+        "@jitl/quickjs-ffi-types"
+      ]
+    },
+    "@types/emscripten@1.39.10": {
+      "integrity": "sha512-TB/6hBkYQJxsZHSqyeuO1Jt0AB/bW6G7rHt9g7lML7SOF6lbgcHvw/Lr+69iqN0qxgXLhWKScAon73JNnptuDw=="
+    },
+    "acorn@8.14.1": {
+      "integrity": "sha512-OvQ/2pUDKmgfCg++xsTX1wGxfTaszcHVcTctW4UJB4hibJx2HXxxO5UmVgyjMa+ZDsiaf5wWLXYpRWMmBI0QHg=="
+    },
+    "biwascheme@0.8.0": {
+      "integrity": "sha512-zuoqaX8zPsXJDHZZC4cSYbP3mAvuVKrIUCR1pChjfi/9Zp5WTYhO3qjv4zOazu5Zfdd/pEN4GcSMCM6rYXHHiw==",
+      "dependencies": [
+        "optparse"
+      ]
+    },
+    "chokidar@4.0.3": {
+      "integrity": "sha512-Qgzu8kfBvo+cA4962jnP1KkS6Dop5NS6g7R5LFYJr4b8Ub94PPQXUksCw9PvXoeXPRRddRNC5C1JQUR2SMGtnA==",
+      "dependencies": [
+        "readdirp"
+      ]
+    },
+    "optparse@1.0.5": {
+      "integrity": "sha512-WfnNWLS3vr8omCm8nKYKaRbapuy6pEbx1O0B+eP5sUf/a++sT9/h8PflqBoHsY9N+YdzUT12T8snXigq13QpJg=="
+    },
+    "pyodide@0.27.5": {
+      "integrity": "sha512-nXErpLzEdtQolt+sNQ/5mKuN9XTUwhxR2MRhRhZ6oDRGpYLXrOp5+kkTPGEwK+wn1ZA8+poNmoxKTj2sq/p9og==",
+      "dependencies": [
+        "ws"
+      ]
+    },
+    "quickjs-emscripten-core@0.31.0": {
+      "integrity": "sha512-oQz8p0SiKDBc1TC7ZBK2fr0GoSHZKA0jZIeXxsnCyCs4y32FStzCW4d1h6E1sE0uHDMbGITbk2zhNaytaoJwXQ==",
+      "dependencies": [
+        "@jitl/quickjs-ffi-types"
+      ]
+    },
+    "readdirp@4.1.2": {
+      "integrity": "sha512-GDhwkLfywWL2s6vEjyhri+eXmfH6j1L7JE27WhqLeYzoh/A3DBaYGEj2H/HFZCn/kMfim73FXxEJTw06WtxQwg=="
+    },
+    "squint-cljs@0.8.146": {
+      "integrity": "sha512-X+vKPxCWfPZj7jH0gXf6tPmsbW98pBq20//UvJs48xifqfeSvxmfV6kMCdhRsVCKPwvHWyLDr6bFuT3vmvxduw==",
+      "dependencies": [
+        "chokidar"
+      ]
+    },
+    "sval@0.6.3": {
+      "integrity": "sha512-QvR9JqSmsSE2nnFzAxWK/KRvgpQsBohMulGyIP0TtSG5kt1Eolw0Iyh+fydqkBh3Pyg2++26CW+5h8KVTatp5Q==",
+      "dependencies": [
+        "acorn"
+      ]
+    },
+    "wasmoon@1.16.0": {
+      "integrity": "sha512-FlRLb15WwAOz1A9OQDbf6oOKKSiefi5VK0ZRF2wgH9xk3o5SnU11tNPaOnQuAh1Ucr66cwwvVXaeVRaFdRBt5g==",
+      "dependencies": [
+        "@types/emscripten"
+      ]
+    },
+    "ws@8.18.1": {
+      "integrity": "sha512-RKW2aJZMXeMxVpnZ6bck+RswznaxmzdULiBr6KY7XkTnW8uvt0iT9H5DkHUChXrc+uurzwa0rVI16n/Xzjdz1w=="
+    }
+  },
+  "redirects": {
+    "https://esm.sh/@bjorn3/browser_wasi_shim@^0.3.0?target=denonext": "https://esm.sh/@bjorn3/browser_wasi_shim@0.3.0?target=denonext",
+    "https://esm.sh/@ruby/wasm-wasi@^2.7.1/dist/browser.js": "https://esm.sh/@ruby/wasm-wasi@2.7.1/dist/browser.js"
+  },
+  "remote": {
+    "https://esm.sh/@bjorn3/browser_wasi_shim@0.3.0/denonext/browser_wasi_shim.mjs": "78b218a11b6f0b74f63266cb04d2c3ed3e5bf1a130d7fe679409a5bf7778b77c",
+    "https://esm.sh/@bjorn3/browser_wasi_shim@0.3.0/es2022/browser_wasi_shim.mjs": "78b218a11b6f0b74f63266cb04d2c3ed3e5bf1a130d7fe679409a5bf7778b77c",
+    "https://esm.sh/@bjorn3/browser_wasi_shim@0.3.0?target=denonext": "74e299deaa3f7201e4c6aaf93352d9490715aae748be45eaf14ef8c5b720dd18",
+    "https://esm.sh/@bjorn3/browser_wasi_shim@^0.3.0?target=es2022": "ef0b8441c84d3eec49cc1397d9b372d43a51b5d1167f803e89e53b37ba937ce3",
+    "https://esm.sh/@ruby/wasm-wasi/dist/browser.js": "93746f56e7f9fcc3ed1d67790babb877c71eaa133472f7c701ef94a9e1063961",
+    "https://esm.sh/@ruby/wasm-wasi@2.7.1/denonext/dist/browser.mjs": "496b8ca4ddb4ed1fa55c867298c179fed34ac6288fec82538a1219582e90181e",
+    "https://esm.sh/@ruby/wasm-wasi@2.7.1/dist/browser.js": "e96b4581dd127ab380f4d069163a1bc37b5efa80bb1821bb235c6e45b21480af",
+    "https://esm.sh/@ruby/wasm-wasi@2.7.1/es2022/dist/browser.mjs": "f1e6f3c2460aa0f613f1e9385cf5b883c0a55b2ff9bad260f395641bde1cadf6"
+  },
+  "workspace": {
+    "dependencies": [
+      "npm:@jitl/quickjs-wasmfile-release-sync@0.31",
+      "npm:biwascheme@0.8",
+      "npm:pyodide@~0.27.5",
+      "npm:quickjs-emscripten-core@0.31",
+      "npm:squint-cljs@~0.8.146",
+      "npm:sval@~0.6.3",
+      "npm:wasmoon@^1.16.0"
+    ]
+  }
+}
