@@ -3,6 +3,10 @@
 **Execute Ruby, Python, Clojure (Squint), Scheme, Lua, and JavaScript in a
 single, type‑safe interface—right from the browser or Node.js.**
 
+<p align="center">
+<img width="400" src="https://github.com/user-attachments/assets/a3261b1a-92db-4a36-9864-d074f26ee3e5">
+</p>
+
 ## ✨ Features
 
 - **One API** – `polyglot.call(lang, code)` returns a promise in every case.
