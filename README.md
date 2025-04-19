@@ -26,6 +26,10 @@ single, type‑safe interface—right from the browser or Node.js.**
 
 ## Quick Start
 
+
+This package is available at https://jsr.io/@tani/polyglot .
+
+
 ```ts
 import { polyglot } from "@tani/polyglot";
 
